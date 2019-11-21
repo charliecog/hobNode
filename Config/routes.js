@@ -1,9 +1,7 @@
-let biscuitData = require('../biscuits');
+const BiscuitController = require('../Controllers/BiscuitController');
 
 function routes(app){
-    app.get('/biscuits', (req, res)=>{
-        res.json(biscuitData);
-    })
+    app.get('/biscuits', BiscuitController.getAllBiscuits)
 }
 
 module.exports = routes;

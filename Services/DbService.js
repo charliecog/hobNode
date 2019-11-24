@@ -2,7 +2,7 @@ const MongoClient = require('mongodb').MongoClient
 
 const url = 'mongodb://localhost:27017'
 const dbname = 'teaTime';
-const Client = new MongoClient(url, { useNewUrlParser: true })
+const Client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true })
 
 function connectToDB(cb) {
     Client.connect(function (err) {

@@ -1,4 +1,4 @@
-# Initial Setup
+# HobNode - A biscuitty API
 
 This is a Node API using Express with a MongoDB database and Jest for testing.
 

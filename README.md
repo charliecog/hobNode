@@ -3,6 +3,7 @@
 This is a Node API using Express with a MongoDB database and Jest for testing.
 
 **Prerequisites:**
+
 1. You must have node installed on your machine.
 2. You must have MongoDb installed with a database named `teaTime` and a collection named `biscuits`.
 3. Use the json data in `biscuits.json` to populate the `biscuits` collection.
@@ -16,6 +17,7 @@ This is a Node API using Express with a MongoDB database and Jest for testing.
 5. Use any of the routes detailed below to test and use the API. The [Postman App]('[https://www.getpostman.com/](https://www.getpostman.com/)') is very useful for experimenting with API endpoints.
 
 **Running the Tests**
+
 Run `npm run test`
 
 # API ENDPOINTS (ROUTES)

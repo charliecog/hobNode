@@ -12,7 +12,7 @@ This is a Node API using Express with a MongoDB database and Jest for testing.
 
 1. Clone this repo.
 2. Run `npm install` in the terminal from the root of the project.
-3. Run `nodemon index.js` in the terminal from the root of the project.
+3. Run `nodemon start.js` in the terminal from the root of the project.
 4. The API should now be running on [localhost:8000]('[http://localhost:8000/biscuits](http://localhost:8000/biscuits)').
 5. Use any of the routes detailed below to test and use the API. The [Postman App]('[https://www.getpostman.com/](https://www.getpostman.com/)') is very useful for experimenting with API endpoints.
 

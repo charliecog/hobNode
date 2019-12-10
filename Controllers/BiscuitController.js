@@ -19,4 +19,30 @@ let getAllBiscuits = (req, res) => {
     })
 }
 
+let addNewBiscuit = (req, res) => {
+
+    let {name, img, RDT}  = req.body
+
+    let biscuit = {
+        name: name,
+        img: img,
+        RDT: RDT
+    }
+
+    DbService.connectToDB((db)=>{
+        BiscuitService.addNewBiscuit(db, biscuit).then((data)=>{
+            if(data.insertedCount){
+                let ApiResponse = createJsonResponse.successful()
+                ApiResponse.message = 'Biscuit added successfully'
+                res.json(ApiResponse)
+            } else {
+                let ApiResponse = createJsonResponse.unsuccessful()
+                ApiResponse.message = 'Could not add new biscuit'
+                res.json(ApiResponse)
+            }
+        })
+    })
+}
+
 module.exports.getAllBiscuits = getAllBiscuits
+module.exports.addNewBiscuit = addNewBiscuit

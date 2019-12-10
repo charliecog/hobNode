@@ -16,4 +16,10 @@ let validateBiscuit = (biscuit) => {
     }
 }
 
-module.exports = validateBiscuit
+let validateObjectId = (id) => {
+    let reg = /^[a-fA-F0-9]{24}$/
+    return (id.match(reg)? true : false);
+}
+
+module.exports.validateBiscuit = validateBiscuit
+module.exports.validateObjectId = validateObjectId

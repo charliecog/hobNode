@@ -1,6 +1,7 @@
 const DbService = require('../Services/DbService');
 const BiscuitService = require('../Services/BiscuitService');
 const createJsonResponse = require('../Services/JsonResponseService');
+const BiscuitValidator = require('../Services/ValidateBiscuitService');
 
 let getAllBiscuits = (req, res) => {
     DbService.connectToDB(async (db)=>{
@@ -21,12 +22,17 @@ let getAllBiscuits = (req, res) => {
 
 let addNewBiscuit = (req, res) => {
 
-    let {name, img, RDT}  = req.body
+    if(!BiscuitValidator(req.body)){
+        let ApiResponse = createJsonResponse.unsuccessful()
+        ApiResponse.message = 'Biscuit not added - invalid inputs'
+        res.json(ApiResponse)
+        return
+    }
 
     let biscuit = {
-        name: name,
-        img: img,
-        RDT: RDT
+        name: req.body.name,
+        img: req.body.img,
+        RDT: req.body.RDT
     }
 
     DbService.connectToDB(async (db)=>{

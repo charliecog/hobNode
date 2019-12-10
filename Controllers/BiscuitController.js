@@ -29,18 +29,18 @@ let addNewBiscuit = (req, res) => {
         RDT: RDT
     }
 
-    DbService.connectToDB((db)=>{
-        let result = BiscuitService.addNewBiscuit(db, biscuit).then((data)=>{
-            if(data.insertedCount){
-                let ApiResponse = createJsonResponse.successful()
-                ApiResponse.message = 'Biscuit added successfully'
-                res.json(ApiResponse)
-            } else {
-                let ApiResponse = createJsonResponse.unsuccessful()
-                ApiResponse.message = 'Biscuit not added'
-                res.json(ApiResponse)
-            }
-        })
+    DbService.connectToDB(async (db)=>{
+        let result = await BiscuitService.addNewBiscuit(db, biscuit)
+
+        if(result.insertedCount){
+            let ApiResponse = createJsonResponse.successful()
+            ApiResponse.message = 'Biscuit added successfully'
+            res.json(ApiResponse)
+        } else {
+            let ApiResponse = createJsonResponse.unsuccessful()
+            ApiResponse.message = 'Biscuit not added'
+            res.json(ApiResponse)
+        }
     })
 }
 

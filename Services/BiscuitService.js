@@ -1,14 +1,14 @@
-let getAllBiscuits = (db, callback) => {
+let getAllBiscuits = async (db) => {
     let collection = db.collection('biscuits')
-    collection.find({}).toArray((err, documents) => {
-        callback(documents)
-    })
+    let result = await collection.find({}).toArray()
+    return result
+
 }
 
 let addNewBiscuit = async (db, biscuit) => {
     let collection = db.collection('biscuits')
-    let thing = await collection.insertOne(biscuit)
-    return thing
+    let result = await collection.insertOne(biscuit)
+    return result
 }
 
 module.exports.getAllBiscuits = getAllBiscuits

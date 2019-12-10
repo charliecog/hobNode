@@ -121,11 +121,11 @@ Run `npm run test`
 
   `{"name":"Jammie Dodger","img":"www.test.com/dodger","RDT":6}`
   
-  "name": The biscuit name
+  "name": The biscuit name (string up to 50 characters)
   
-  "img": A url to a hosted image of the biscuit
+  "img": A url to a hosted image of the biscuit (url starting with `http://` or `https://`)
   
-  "RDT": Recommended dunking time - a number in seconds
+  "RDT": Recommended dunking time - a number in seconds (0-99)
 
 * **Success Response:**
 

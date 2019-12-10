@@ -5,8 +5,8 @@ const bodyParser = require('body-parser');
 const routes = require('./Config/routes');
 
 app.use(cors());
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
-routes(app)
+routes(app);
 
-module.exports = app
+module.exports = app;

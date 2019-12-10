@@ -37,7 +37,7 @@ let addNewBiscuit = (req, res) => {
                 res.json(ApiResponse)
             } else {
                 let ApiResponse = createJsonResponse.unsuccessful()
-                ApiResponse.message = 'Could not add new biscuit'
+                ApiResponse.message = 'Biscuit not added'
                 res.json(ApiResponse)
             }
         })

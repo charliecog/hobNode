@@ -98,3 +98,74 @@ Run `npm run test`
 		    console.log(biscuits)
 	    })
   ```
+
+**Add new biscuit**
+----
+  Creates new document in the biscuit collection, Returns json data with success message.
+
+* **URL**
+
+  /biscuits
+
+* **Method:**
+
+  `POST`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+	  None
+
+* **Data Params**
+
+  `{"name":"Jammie Dodger","img":"www.test.com/dodger","RDT":6}`
+  
+  "name": The biscuit name
+  
+  "img": A url to a hosted image of the biscuit
+  
+  "RDT": Recommended dunking time - a number in seconds
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```
+    {
+        "success": true,
+        "message": "Biscuit added successfully",
+        "status": 200,
+        "data": []
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 404  <br />
+    **Content:** 
+    ```
+    { 
+    success: false,
+    status: 404,
+    message : "Biscuit not added",
+    data: [] 
+    }
+    ```
+
+* **Sample Call:**
+
+  ```javascript
+    fetch('/biscuits', 
+      {
+        method: 'POST',
+        body: JSON.stringify(newBiscuitObj),
+        headers: {
+          "Content-Type": "application/json"
+      }
+    })
+    .then((data)=> data.json)
+    .then((data)=> {
+        console.log(data)
+    })
+  ```

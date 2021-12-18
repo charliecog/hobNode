@@ -78,12 +78,12 @@ Run `npm run test`
  
 * **Error Response:**
 
-  * **Code:** 404  <br />
+  * **Code:** 200  <br />
     **Content:** 
     ```
     { 
     success: false,
-    status: 404,
+    status: 200,
     message : "Could not retrieve biscuits",
     data: [] 
     }
@@ -142,12 +142,12 @@ Run `npm run test`
  
 * **Error Response:**
 
-  * **Code:** 404  <br />
+  * **Code:** 200  <br />
     **Content:** 
     ```
     { 
     success: false,
-    status: 404,
+    status: 200,
     message : "Biscuit not added",
     data: [] 
     }
@@ -160,6 +160,81 @@ Run `npm run test`
       {
         method: 'POST',
         body: JSON.stringify(newBiscuitObj),
+        headers: {
+          "Content-Type": "application/json"
+      }
+    })
+    .then((data)=> data.json)
+    .then((data)=> {
+        console.log(data)
+    })
+  ```
+
+**Log the result of a comparison**
+----
+  Saves the result of comparing two biscuits, both biscuits have their performance counter incremented by 1. Additionally the winner also has their wins counter incremented by 1. Returns json response.
+
+* **URL**
+
+  /biscuits/compare
+
+* **Method:**
+
+  `POST`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+	  None
+
+* **Data Params**
+
+  `{"winner":"61be4aac1ee6cf64cf3ce338","loser":"61be4aac1ee6cf64cf3ce339"}`
+  
+  "winner": The winning biscuits id (unique string - 24 characters)
+
+  "loser": The losing biscuits id (unique string - 24 characters)
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```
+    {
+        "success": true,
+        "message": "Biscuit comparison logged successfully",
+        "status": 200,
+        "data": []
+    }
+    ```
+ 
+* **Error Response:**
+
+  * **Code:** 200  <br />
+    **Content:** 
+    ```
+    { 
+    success: false,
+    status: 404,
+    message : "Biscuit comparison not logged",
+    data: [] 
+    }
+    ```
+
+* **Sample Call:**
+
+  ```javascript
+
+    let dataToSend = {
+      "winner":"61be4aac1ee6cf64cf3ce338",
+      "loser":"61be4aac1ee6cf64cf3ce33a"
+      }
+
+    fetch('/biscuits/compare', 
+      {
+        method: 'POST',
+        body: JSON.stringify(dataToSend),
         headers: {
           "Content-Type": "application/json"
       }

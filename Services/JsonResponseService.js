@@ -1,20 +1,34 @@
-let unsuccessful = () => {
+const JsonResponse = (
+    data = [], 
+    success = 'false', 
+    message = 'something went wrong', 
+    status = 200
+    ) => {
     return {
-        "success": false,
-        "message": "",
-        "status": 404,
-        "data": []
+        "success": success,
+        "message": message,
+        "status": status,
+        "data": data
     }
 }
 
-let successful = () => {
-    return {
-        "success": true,
-        "message": "",
-        "status": 200,
-        "data": []
-    }
-}
+// let unsuccessful = () => {
+//     return {
+//         "success": false,
+//         "message": "",
+//         "status": 404,
+//         "data": []
+//     }
+// }
 
-module.exports.unsuccessful = unsuccessful
-module.exports.successful = successful
+// let successful = () => {
+//     return {
+//         "success": true,
+//         "message": "",
+//         "status": 200,
+//         "data": []
+//     }
+// }
+
+module.exports = JsonResponse
+// module.exports.successful = successful

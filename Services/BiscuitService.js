@@ -1,23 +1,30 @@
-let getAllBiscuits = async (db) => {
-    let collection = db.collection('biscuits')
+let getAllBiscuits = async (collection) => {
+    // let collection = db.collection('biscuits')
     let result = await collection.find({}).toArray()
     return result
 
 }
 
-let addNewBiscuit = async (db, biscuit) => {
-    let collection = db.collection('biscuits')
+let addNewBiscuit = async (collection, biscuit) => {
     let result = await collection.insertOne(biscuit)
     return result
 }
 
-let addNewBiscuitVictory = async (db, winnerId) => {
-    let collection = db.collection('biscuits')
-    let result = await collection.updateOne(
-        {"_id": winnerId},
-        { $inc:
-            {"performances": 1, "wins": 1}
-        })
+let addNewBiscuitVictory = async (collection, winnerId, loserId) => {
+    let result = await collection.bulkWrite([
+        {
+            updateOne : {
+            filter: {"_id": winnerId},
+            update: { $inc: {"performances": 1, "wins": 1}}
+            }
+        },
+        {
+            updateOne : {
+            filter: {"_id": loserId},
+            update: { $inc: {"performances": 1}}
+            }
+        }
+    ])
     return result
 }
 

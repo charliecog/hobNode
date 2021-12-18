@@ -1,94 +1,70 @@
 const DbService = require('../Services/DbService');
 const BiscuitService = require('../Services/BiscuitService');
-const createJsonResponse = require('../Services/JsonResponseService');
 const BiscuitValidator = require('../Services/ValidateBiscuitService');
-const ObjectId = require('mongodb').ObjectID
+const ObjectId = require('mongodb').ObjectId;
+const JsonResponse = require('../Services/JsonResponseService');
 
-let getAllBiscuits = (req, res) => {
-    DbService.connectToDB(async (db)=>{
-        let biscuits = await BiscuitService.getAllBiscuits(db)
+let getAllBiscuits = async(req, res) => {
+    let collection = await DbService('biscuits')
+    let biscuits = await BiscuitService.getAllBiscuits(collection)
 
-        if(biscuits.length == 0){
-            let ApiResponse = createJsonResponse.unsuccessful()
-            ApiResponse.message = 'Could not retrieve biscuits'
-            res.json(ApiResponse)
-        } else {
-            let ApiResponse = createJsonResponse.successful()
-            ApiResponse.message = 'Biscuits retrieved'
-            ApiResponse.data = biscuits
-            res.json(ApiResponse)
-        }
-    })
+    let apiResponse = (
+        biscuits.length 
+        ? JsonResponse(biscuits, true, 'success') 
+        : JsonResponse()
+    )
+
+    res.json(apiResponse)
 }
 
-let addNewBiscuit = (req, res) => {
+let addNewBiscuit = async(req, res) => {
 
     if(!BiscuitValidator.validateBiscuit(req.body)){
-        let ApiResponse = createJsonResponse.unsuccessful()
-        ApiResponse.message = 'Biscuit not added - invalid inputs'
-        res.json(ApiResponse)
+        res.json(JsonResponse([], false, 'Biscuit not added - invalid inputs'))
         return
     }
 
-    let biscuit = {
-        name: req.body.name,
-        img: req.body.img,
-        RDT: req.body.RDT
-    }
+    let {name, img, RDT} = req.body
 
-    DbService.connectToDB(async (db)=>{
-        let result = await BiscuitService.addNewBiscuit(db, biscuit)
+    let collection = await DbService('biscuits')
+    let result = await BiscuitService.addNewBiscuit(collection, {name, img, RDT})
 
-        if(result.insertedCount){
-            let ApiResponse = createJsonResponse.successful()
-            ApiResponse.message = 'Biscuit added successfully'
-            res.json(ApiResponse)
-        } else {
-            let ApiResponse = createJsonResponse.unsuccessful()
-            ApiResponse.message = 'Biscuit not added'
-            res.json(ApiResponse)
-        }
-    })
+    let apiResponse = (
+        result.insertedId
+        ? JsonResponse([], true, 'Biscuit added successfully') 
+        : JsonResponse([], false, 'Biscuit not added')
+    )
+
+    res.json(apiResponse)
 }
 
-let compareBiscuits = (req, res) => {
+let compareBiscuits = async(req, res) => {
 
-    let winnerId = req.body.winner
-    let loserId = req.body.loser
+    let {winner, loser} = req.body
 
     if(
-        winnerId === loserId ||
-        !BiscuitValidator.validateObjectId(winnerId) ||
-        !BiscuitValidator.validateObjectId(loserId)
+        winner === loser ||
+        !BiscuitValidator.validateObjectId(winner) ||
+        !BiscuitValidator.validateObjectId(loser)
     ){
-        let ApiResponse = createJsonResponse.unsuccessful()
-        ApiResponse.message = 'Biscuit not added - invalid inputs'
-        res.json(ApiResponse)
+        res.json(JsonResponse([], false, 'Comparison not added - invalid inputs'))
         return
     }
 
-    winnerId = ObjectId(winnerId);
-    loserId = ObjectId(loserId);
+    let winnerId = ObjectId(winner);
+    let loserId = ObjectId(loser);
 
-    DbService.connectToDB(async (db)=>{
-        let winnerResult = await BiscuitService.addNewBiscuitVictory(db, winnerId)
-        if(winnerResult.modifiedCount){
-            let loserResult = await BiscuitService.addNewBiscuitLoss(db, loserId)
-            if(loserResult.modifiedCount){
-                let ApiResponse = createJsonResponse.successful()
-                ApiResponse.message = 'Biscuit comparison logged successfully'
-                res.json(ApiResponse)
-            } else {
-                let ApiResponse = createJsonResponse.unsuccessful()
-                ApiResponse.message = 'Biscuit comparison not logged'
-                res.json(ApiResponse)
-            }
-        } else {
-            let ApiResponse = createJsonResponse.unsuccessful()
-            ApiResponse.message = 'Biscuit comparison not logged'
-            res.json(ApiResponse)
-        }
-    })
+    let collection = await DbService('biscuits')
+    let result = await BiscuitService.addNewBiscuitVictory(collection, winnerId, loserId)
+
+    let apiResponse = (
+        result.modifiedCount === 2
+        ? JsonResponse([], true, 'Biscuit comparison logged successfully') 
+        : JsonResponse([], false, 'Biscuit comparison not logged')
+    )
+
+    res.json(apiResponse)
+
 }
 
 module.exports.getAllBiscuits = getAllBiscuits

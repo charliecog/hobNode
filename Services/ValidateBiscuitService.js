@@ -7,7 +7,7 @@ let validateBiscuit = (biscuit) => {
     if(
         name.match(/\w+(\s+\w+)*/) &&
         name.length < 50 &&
-        img.match(/(https?:\/\/)+([\w\-])+\.{1}([a-zA-Z]{2,63})([\/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)/) &&
+        img.match(/^(https:|http:|www\.)\S*/) &&
         RDT.match(/^\d{1,2}$/)
     ){
         return true

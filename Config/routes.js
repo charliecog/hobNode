@@ -5,7 +5,7 @@ function routes(app){
 
     app.post('/biscuits', BiscuitController.addNewBiscuit)
 
-    app.put('/biscuits/compare', BiscuitController.compareBiscuits)
+    app.post('/biscuits/compare', BiscuitController.compareBiscuits)
 }
 
 module.exports = routes;
